@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Research Consent – Data Visualization in Indian Media</title>
+  <!-- TailwindCSS CDN (works on GitHub Pages) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Signature Pad (MIT) -->
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.6/dist/signature_pad.umd.min.js"></script>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <main class="max-w-3xl mx-auto p-6 sm:p-10">
+    <header class="mb-8">
+      <h1 class="text-3xl font-bold">Participant Information & Consent</h1>
+      <p class="text-sm text-gray-600 mt-2">Study title: <span class="font-medium">Data Visualization in Indian Media: A Study on Production Strategies</span></p>
+    </header>
+
+    <!-- Ethical document section -->
+    <section class="bg-white shadow-sm rounded-2xl p-6 mb-8">
+      <h2 class="text-xl font-semibold mb-3">About this study</h2>
+      <p class="leading-7">
+        Replace this paragraph with your approved ethics/participant-information text. Keep it concise on this page; you can also link a full PDF. Clearly state purpose, procedures, duration, risks/benefits, confidentiality, data handling, and contact details. Add a note such as: “You may ask to pause the recording at any point to disclose sensitive information; off‑record segments will not be transcribed or stored.”
+      </p>
+      <ul class="list-disc pl-6 mt-4 space-y-1 text-sm text-gray-700">
+        <li>Voluntary participation; you may withdraw at any time without penalty.</li>
+        <li>Audio/video recording only with your permission; you may decline specific questions.</li>
+        <li>De‑identification/anonymization procedures will be applied as described.</li>
+        <li>Data will be stored securely and used solely for academic purposes.</li>
+      </ul>
+      <p class="text-sm text-gray-600 mt-4">Contact: <a href="mailto:you@example.com" class="underline">you@example.com</a> · Institution: University of Calicut</p>
+    </section>
+
+    <!-- Consent form -->
+    <section id="consent" class="bg-white shadow-sm rounded-2xl p-6">
+      <h2 class="text-xl font-semibold mb-4">Consent Form</h2>
+
+      <!-- NOTE: For GitHub Pages (static hosting), you must submit this form to an external endpoint.
+           Replace ACTION_URL below with your endpoint from a service like Formspree/Basin/Getform,
+           or your own Google Apps Script / serverless function.  -->
+      <form id="consentForm" action="ACTION_URL" method="POST" enctype="multipart/form-data" class="space-y-6">
+        <!-- Participant details -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1" for="fullName">Full name <span class="text-red-500">*</span></label>
+            <input id="fullName" name="fullName" type="text" required class="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1" for="email">Email <span class="text-red-500">*</span></label>
+            <input id="email" name="email" type="email" required class="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1" for="affiliation">Affiliation / Organization</label>
+            <input id="affiliation" name="affiliation" type="text" class="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1" for="role">Role / Title</label>
+            <input id="role" name="role" type="text" class="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" />
+          </div>
+        </div>
+
+        <!-- Required checkboxes -->
+        <fieldset class="space-y-3">
+          <legend class="text-sm font-medium">Please review and confirm</legend>
+          <label class="flex items-start gap-3">
+            <input type="checkbox" name="consent_info_read" required class="mt-1" />
+            <span class="text-sm">I have read and understood the participant information above.</span>
+          </label>
+          <label class="flex items-start gap-3">
+            <input type="checkbox" name="consent_voluntary" required class="mt-1" />
+            <span class="text-sm">I understand my participation is voluntary and I can withdraw at any time.</span>
+          </label>
+          <label class="flex items-start gap-3">
+            <input type="checkbox" name="consent_recording" required class="mt-1" />
+            <span class="text-sm">I consent to audio/video recording for research purposes.</span>
+          </label>
+          <label class="flex items-start gap-3">
+            <input type="checkbox" name="consent_data_use" required class="mt-1" />
+            <span class="text-sm">I consent to the use of my de‑identified data for academic outputs.</span>
+          </label>
+        </fieldset>
+
+        <!-- Optional text area for restrictions/preferences -->
+        <div>
+          <label class="block text-sm font-medium mb-1" for="notes">Restrictions / preferences (optional)</label>
+          <textarea id="notes" name="notes" rows="3" class="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500" placeholder="e.g., Do not attribute quotes; anonymize organization; no video recording, etc."></textarea>
+        </div>
+
+        <!-- Signature block -->
+        <div>
+          <label class="block text-sm font-medium mb-2">E‑signature <span class="text-red-500">*</span></label>
+          <div class="rounded-2xl border border-dashed border-gray-300 bg-gray-50">
+            <canvas id="sigCanvas" class="w-full h-48 rounded-2xl bg-white"></canvas>
+          </div>
+          <div class="flex items-center gap-3 mt-2">
+            <button type="button" id="clearSig" class="px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-sm">Clear</button>
+            <span class="text-xs text-gray-500">Use mouse or touch to sign.</span>
+          </div>
+          <!-- Hidden field that will carry the PNG data URL to your backend -->
+          <input type="hidden" name="signature_png" id="signaturePng" required />
+        </div>
+
+        <!-- Captured metadata (disable editing) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-medium mb-1" for="timestamp">Timestamp (ISO‑8601)</label>
+            <input id="timestamp" name="timestamp" type="text" readonly class="w-full rounded-xl border-gray-200 bg-gray-100 text-gray-700" />
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-1" for="timezone">Timezone</label>
+            <input id="timezone" name="timezone" type="text" readonly class="w-full rounded-xl border-gray-200 bg-gray-100 text-gray-700" />
+          </div>
+        </div>
+
+        <!-- Consent submit -->
+        <div class="flex items-center justify-between pt-2">
+          <p class="text-xs text-gray-500">By clicking Submit, you certify that this e‑signature is yours and you agree to the statements above.</p>
+          <button type="submit" class="px-5 py-2.5 rounded-2xl bg-indigo-600 text-white font-medium hover:bg-indigo-700">Submit</button>
+        </div>
+      </form>
+
+      <!-- Success message (client‑side only; your backend should also send an email receipt if configured) -->
+      <div id="successMsg" class="hidden mt-6 rounded-xl bg-green-50 text-green-800 p-4">
+        Thank you. Your consent has been recorded.
+      </div>
+    </section>
+
+    <footer class="text-xs text-gray-500 mt-10">
+      <p><strong>Note on e‑signatures:</strong> For research consent, a typed or drawn signature combined with checkboxes, timestamp, and email is commonly accepted by many ethics boards. Confirm with your institution’s guidelines.</p>
+    </footer>
+  </main>
+
+  <script>
+    // --- Signature Pad setup ---
+    const canvas = document.getElementById('sigCanvas');
+    const signaturePad = new SignaturePad(canvas, { minWidth: 0.8, maxWidth: 2.2 });
+
+    function resizeCanvas() {
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      // Scale the canvas for high‑DPI displays without changing CSS size
+      const { width } = canvas.getBoundingClientRect();
+      const height = 192; // 48 * 4px base (Tailwind h-48)
+      canvas.width = Math.floor(width * ratio);
+      canvas.height = Math.floor(height * ratio);
+      canvas.getContext('2d').scale(ratio, ratio);
+      signaturePad.clear();
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    document.getElementById('clearSig').addEventListener('click', () => signaturePad.clear());
+
+    // --- Metadata population ---
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+    document.getElementById('timezone').value = tz;
+    function setTimestamp() {
+      document.getElementById('timestamp').value = new Date().toISOString();
+    }
+    setTimestamp();
+
+    // --- Form submission handler ---
+    const form = document.getElementById('consentForm');
+    form.addEventListener('submit', async (e) => {
+      // Require a drawn signature
+      if (signaturePad.isEmpty()) {
+        e.preventDefault();
+        alert('Please provide your signature before submitting.');
+        return;
+      }
+
+      // Put PNG data URL into hidden input
+      const dataUrl = signaturePad.toDataURL('image/png');
+      document.getElementById('signaturePng').value = dataUrl;
+
+      // Refresh timestamp at submit
+      setTimestamp();
+
+      // If you use a JSON endpoint, uncomment below and adapt.
+      // e.preventDefault();
+      // const fd = new FormData(form);
+      // const res = await fetch(form.action, { method: 'POST', body: fd });
+      // if (res.ok) {
+      //   form.reset(); signaturePad.clear();
+      //   document.getElementById('successMsg').classList.remove('hidden');
+      // }
+    });
+  </script>
+</body>
+</html>
