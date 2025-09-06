@@ -8,6 +8,8 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Signature Pad (MIT) -->
   <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.6/dist/signature_pad.umd.min.js"></script>
+  <!-- jsPDF (for client-side PDF generation) -->
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </head>
 <body class="bg-gray-50 text-gray-900">
   <main class="max-w-3xl mx-auto p-6 sm:p-10">
@@ -63,19 +65,19 @@
         <fieldset class="space-y-3">
           <legend class="text-sm font-medium">Please review and confirm</legend>
           <label class="flex items-start gap-3">
-            <input type="checkbox" name="consent_info_read" required class="mt-1" />
+            <input type="checkbox" id="cb_info" name="consent_info_read" required class="mt-1" />
             <span class="text-sm">I have read and understood the participant information above.</span>
           </label>
           <label class="flex items-start gap-3">
-            <input type="checkbox" name="consent_voluntary" required class="mt-1" />
+            <input type="checkbox" id="cb_vol" name="consent_voluntary" required class="mt-1" />
             <span class="text-sm">I understand my participation is voluntary and I can withdraw at any time.</span>
           </label>
           <label class="flex items-start gap-3">
-            <input type="checkbox" name="consent_recording" required class="mt-1" />
+            <input type="checkbox" id="cb_rec" name="consent_recording" required class="mt-1" />
             <span class="text-sm">I consent to audio/video recording for research purposes.</span>
           </label>
           <label class="flex items-start gap-3">
-            <input type="checkbox" name="consent_data_use" required class="mt-1" />
+            <input type="checkbox" id="cb_use" name="consent_data_use" required class="mt-1" />
             <span class="text-sm">I consent to the use of my de‑identified data for academic outputs.</span>
           </label>
         </fieldset>
@@ -94,36 +96,7 @@
           </div>
           <div class="flex items-center gap-3 mt-2">
             <button type="button" id="clearSig" class="px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-sm">Clear</button>
-            <span class="text-xs text-gray-500">Use mouse or touch to sign.</span>
-          </div>
-          <!-- Hidden field that will carry the PNG data URL to your backend -->
-          <input type="hidden" name="signature_png" id="signaturePng" required />
-        </div>
-
-        <!-- Captured metadata (disable editing) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium mb-1" for="timestamp">Timestamp (ISO‑8601)</label>
-            <input id="timestamp" name="timestamp" type="text" readonly class="w-full rounded-xl border-gray-200 bg-gray-100 text-gray-700" />
-          </div>
-          <div>
-            <label class="block text-sm font-medium mb-1" for="timezone">Timezone</label>
-            <input id="timezone" name="timezone" type="text" readonly class="w-full rounded-xl border-gray-200 bg-gray-100 text-gray-700" />
-          </div>
-        </div>
-
-        <!-- Consent submit -->
-        <div class="flex items-center justify-between pt-2">
-          <p class="text-xs text-gray-500">By clicking Submit, you certify that this e‑signature is yours and you agree to the statements above.</p>
-          <button type="submit" class="px-5 py-2.5 rounded-2xl bg-indigo-600 text-white font-medium hover:bg-indigo-700">Submit</button>
-        </div>
-      </form>
-
-      <!-- Success message (client‑side only; your backend should also send an email receipt if configured) -->
-      <div id="successMsg" class="hidden mt-6 rounded-xl bg-green-50 text-green-800 p-4">
-        Thank you. Your consent has been recorded.
-      </div>
-    </section>
+            <span class="text-xs text-gray-500">Use mouse
 
     <footer class="text-xs text-gray-500 mt-10">
       <p><strong>Note on e‑signatures:</strong> For research consent, a typed or drawn signature combined with checkboxes, timestamp, and email is commonly accepted by many ethics boards. Confirm with your institution’s guidelines.</p>
